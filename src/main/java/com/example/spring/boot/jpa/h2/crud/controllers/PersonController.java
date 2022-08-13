@@ -1,7 +1,8 @@
 package com.example.spring.boot.jpa.h2.crud.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,9 +28,9 @@ public class PersonController {
 	@GetMapping
 	public ResponseEntity<ResponseDTO> getAll() {
 		try {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.selectAll(), null), HttpStatus.OK);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.selectAll()), HttpStatus.OK);
 		} catch(Exception e) {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(null, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -37,28 +38,28 @@ public class PersonController {
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseDTO> getById(@PathVariable Long id) {
 		try {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.selectById(id), null), HttpStatus.OK);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.selectById(id)), HttpStatus.OK);
 		} catch(Exception e) {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(null, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping
-	public ResponseEntity<ResponseDTO> post(@RequestBody Person person) {
+	public ResponseEntity<ResponseDTO> post(@Valid @RequestBody Person person) {
 		try {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.insert(person), null), HttpStatus.CREATED);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.insert(person)), HttpStatus.CREATED);
 		} catch(Exception e) {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(null, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}
 	}
 	
 	@PutMapping
-	public ResponseEntity<ResponseDTO> put(@RequestBody Person person) {
+	public ResponseEntity<ResponseDTO> put(@Valid @RequestBody Person person) {
 		try {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.update(person), null), HttpStatus.OK); 
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.update(person)), HttpStatus.OK); 
 		} catch(Exception e) {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(null, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}
 	}
@@ -69,7 +70,7 @@ public class PersonController {
 			personRepository.delete(id);
 			return new ResponseEntity<ResponseDTO>(new ResponseDTO(), HttpStatus.OK);
 		} catch(Exception e) {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(null, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
