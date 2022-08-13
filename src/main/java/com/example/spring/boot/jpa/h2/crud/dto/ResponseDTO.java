@@ -5,16 +5,19 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseDTO {
 	
 	private Object data;
 	private List<String> messages = new ArrayList<String>();
 	
-	public ResponseDTO() {
-		super();
-	}
-
 	public ResponseDTO(Object data) {
 		super();
 		this.data = data;
@@ -26,12 +29,6 @@ public class ResponseDTO {
 		this.messages.add(message);
 	}
 
-	public ResponseDTO(Object data, List<String> messages) {
-		super();
-		this.data = data;
-		this.messages.addAll(messages);
-	}
-
 	public ResponseDTO(String message) {
 		super();
 		this.messages.add(message);
@@ -40,22 +37,6 @@ public class ResponseDTO {
 	public ResponseDTO(List<String> messages) {
 		super();
 		this.messages.addAll(messages);
-	}
-	
-	public Object getData() {
-		return data;
-	}
-
-	public void setData(Object data) {
-		this.data = data;
-	}
-	
-	public List<String> getMessages() {
-		return this.messages;
-	}
-	
-	public void setMessage(List<String> messages) {
-		this.messages = messages;
 	}
 		
 }

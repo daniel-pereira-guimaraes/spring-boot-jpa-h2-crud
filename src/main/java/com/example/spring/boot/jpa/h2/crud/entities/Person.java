@@ -14,9 +14,16 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "person")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 	
 	@Id
@@ -37,58 +44,5 @@ public class Person {
 	@Column(precision = 18, scale = 2)
 	@NotNull(message = "O campo 'Salário' é requerido.")
 	BigDecimal salary;
-	
-	public Person() {
-		super();
-	}
-	
-	public Person(Long id, String name, String telephone, LocalDate birthDate, BigDecimal salary) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.telephone = telephone;
-		this.birthDate = birthDate;
-		this.salary = salary;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getTelephone() {
-		return telephone;
-	}
-	
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-	
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
-	
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
-	}
-	
-	public BigDecimal getSalary() {
-		return salary;
-	}
-	
-	public void setSalary(BigDecimal salary) {
-		this.salary = salary;
-	}
 	
 }
