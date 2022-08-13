@@ -16,7 +16,7 @@ public class ApplicationAdviceController {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseDTO MethodArgumentNotValidExceptionHandle(MethodArgumentNotValidException e) {
+	public ResponseDTO handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		List<String> messages = new ArrayList<String>();
 		e.getAllErrors().forEach(error -> {
 			messages.add(error.getDefaultMessage());

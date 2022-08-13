@@ -16,7 +16,6 @@ public class PersonRepository {
 
 	@Autowired
 	private EntityManager entityManager;
-	
 
 	/* Exemplo de consulta tipada. */
 	public List<Person> selectAll() {

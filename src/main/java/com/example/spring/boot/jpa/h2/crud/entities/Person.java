@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -32,17 +34,18 @@ public class Person {
 	Long id;
 
 	@Column(length = 50, nullable = false)
-	@NotBlank(message = "O campo 'Nome' é requerido.")
+	@NotBlank(message = "{msg.name.required}")
 	String name;
 	
 	@Column(length = 15)
+	@Size(max = 15, message = "{msg.telephone.max}")
 	String telephone;
-	
 	
 	LocalDate birthDate;
 	
 	@Column(precision = 18, scale = 2)
-	@NotNull(message = "O campo 'Salário' é requerido.")
+	@NotNull(message = "{msg.salary.required}")
+	@Min(value = 0, message = "{msg.salary.not.negative}")
 	BigDecimal salary;
 	
 }
