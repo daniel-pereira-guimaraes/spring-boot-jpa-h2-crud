@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.example.spring.boot.jpa.h2.crud.Messages;
 import com.example.spring.boot.jpa.h2.crud.entities.Person;
 
 @Repository
@@ -19,11 +19,11 @@ public class PersonRepository {
 
 	@Autowired
 	private EntityManager entityManager;
-
+	
 	public Person selectById(Long id) throws Exception {
 		Person p = entityManager.find(Person.class, id);
 		if (p == null)
-			throw new Exception("Pessoa não encontrada: " + id);
+			throw new Exception(Messages.format("msg.person.not.found", id));
 		return p;
 	}
 	
