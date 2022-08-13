@@ -1,5 +1,7 @@
 package com.example.spring.boot.jpa.h2.crud.controllers;
 
+import java.math.BigDecimal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,17 @@ public class PersonController {
 				personRepository.selectById(Long.parseLong(param)) :
 				personRepository.selectLikeName(param);
 			return new ResponseEntity<ResponseDTO>(new ResponseDTO(result), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/{min}/{max}")
+	public ResponseEntity<ResponseDTO> getSalaryBetween(@PathVariable BigDecimal min, @PathVariable BigDecimal max) {
+		try {
+			return new ResponseEntity<ResponseDTO>(
+				new ResponseDTO(personRepository.selectSalaryBetween(min, max)), 
+				HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

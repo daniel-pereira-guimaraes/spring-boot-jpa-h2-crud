@@ -1,8 +1,11 @@
 package com.example.spring.boot.jpa.h2.crud.repositories;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -24,14 +27,25 @@ public class PersonRepository {
 		return p;
 	}
 	
+	// Exemplo de consulta com JPQL
 	public List<Person> selectLikeName(String name) throws Exception {
 		String jpql = "SELECT p FROM Person p WHERE UPPER(p.name) LIKE UPPER(:name)";
 		return entityManager.createQuery(jpql, Person.class)
 			.setParameter("name", "%" + name + "%")
 			.getResultList();
 	}
+	
+	// Exemplo de consulta com SQL.
+	@SuppressWarnings("unchecked")
+	public List<Person> selectSalaryBetween(BigDecimal min, BigDecimal max) {
+		String sql = "SELECT id, name, telephone, birth_date, salary FROM person WHERE salary BETWEEN :min AND :max";
+		return entityManager.createNativeQuery(sql, Person.class)
+			.setParameter("min", min)
+			.setParameter("max", max)
+			.getResultList();
+	}
 
-	/* Exemplo de consulta tipada. */
+	// Exemplo de consulta tipada com JPQL.
 	public List<Person> selectAll() {
 		String jpql = "SELECT new com.example.spring.boot.jpa.h2.crud.entities.Person(p.id, p.name, p.telephone, p.birthDate, p.salary) FROM Person p";
 		TypedQuery<Person> query = entityManager.createQuery(jpql, Person.class);
