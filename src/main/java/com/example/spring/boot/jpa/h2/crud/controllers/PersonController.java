@@ -35,10 +35,13 @@ public class PersonController {
 	}
 	
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO> getById(@PathVariable Long id) {
+	@GetMapping("/{param}")
+	public ResponseEntity<ResponseDTO> getById(@PathVariable String param) {
 		try {
-			return new ResponseEntity<ResponseDTO>(new ResponseDTO(personRepository.selectById(id)), HttpStatus.OK);
+			Object result = param.matches("\\d*") ?
+				personRepository.selectById(Long.parseLong(param)) :
+				personRepository.selectLikeName(param);
+			return new ResponseEntity<ResponseDTO>(new ResponseDTO(result), HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<ResponseDTO>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

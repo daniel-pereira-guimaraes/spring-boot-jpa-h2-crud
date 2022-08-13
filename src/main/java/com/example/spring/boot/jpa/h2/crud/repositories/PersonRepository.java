@@ -17,20 +17,26 @@ public class PersonRepository {
 	@Autowired
 	private EntityManager entityManager;
 
-	/* Exemplo de consulta tipada. */
-	public List<Person> selectAll() {
-		String jpql = "select new com.example.spring.boot.jpa.h2.crud.entities.Person(p.id, p.name, p.telephone, p.birthDate, p.salary) from Person p";
-		TypedQuery<Person> query = entityManager.createQuery(jpql, Person.class);
-		return query.getResultList();
-	}
-
 	public Person selectById(Long id) throws Exception {
 		Person p = entityManager.find(Person.class, id);
 		if (p == null)
 			throw new Exception("Pessoa não encontrada: " + id);
 		return p;
 	}
+	
+	public List<Person> selectLikeName(String name) throws Exception {
+		String jpql = "SELECT p FROM Person p WHERE UPPER(p.name) LIKE UPPER(:name)";
+		return entityManager.createQuery(jpql, Person.class)
+			.setParameter("name", "%" + name + "%")
+			.getResultList();
+	}
 
+	/* Exemplo de consulta tipada. */
+	public List<Person> selectAll() {
+		String jpql = "SELECT new com.example.spring.boot.jpa.h2.crud.entities.Person(p.id, p.name, p.telephone, p.birthDate, p.salary) FROM Person p";
+		TypedQuery<Person> query = entityManager.createQuery(jpql, Person.class);
+		return query.getResultList();
+	}
 	
 	@Transactional
 	public Person insert(Person person) {
